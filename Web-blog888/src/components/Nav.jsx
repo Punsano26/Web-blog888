@@ -7,9 +7,13 @@ const Nav = () => {
       <div className="flex-1">
         <a href="/" className="btn btn-ghost text-xl">Se NPRU Blog</a>
       </div>
-      <Loginbtn />
-      <Registerbtn/>
+      <div className="flex-none gap-4 mr-2">
+        <Loginbtn />
+        <Registerbtn/>
+      </div>
+      
       <div className="flex-none gap-2">
+        
         <div className="dropdown dropdown-end">
           <div
             tabIndex={0}
