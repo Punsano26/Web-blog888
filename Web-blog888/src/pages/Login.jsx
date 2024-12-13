@@ -1,6 +1,61 @@
-import React from "react";
-
+import { useState, useEffect } from "react";
+import AuthService from "../services/auth.service";
+import { useNavigate } from "react-router";
+import Swal from "sweetalert2";
+import { useAuthContext } from "../context/AuthContext";
 const Login = () => {
+  const [user, setUser] = useState({
+    username:"",
+    password:""
+  });
+  const { login, user: loggedUser } = useAuthContext();
+  useEffect(()=>{
+    if(loggedUser){
+      navigate("/");
+    }
+  }, [loggedUser]);
+  const navigate = useNavigate();
+   const handleChange = (e) => {
+     const { name, value } = e.target;
+     setUser({
+       ...user,
+       [name]: value,
+     });
+     console.log(user);
+   };
+
+   const handleSubmit = async () => {
+     try {
+       const currentUser = await AuthService.login(
+         user.username,
+         user.password
+       );
+       console.log(currentUser.status);
+
+       if (currentUser.status === 200) {
+        
+         Swal.fire({
+           title: "User Login",
+           text: currentUser.data.message,
+           icon: "success",
+         }).then(()=> {
+          login(currentUser.data);
+         });
+         setUser({
+           username: "",
+           password: "",
+         });
+         navigate("/");
+       }
+     } catch (error) {
+       Swal.fire({
+         title: "Duplicate password in the system",
+         text: error?.response?.data?.message || error.message,
+         icon: "error",
+       });
+     }
+   };
+
   return (
     <>
       <div className="card shadow-lg p-4 bg-white rounded-lg max-w-md mx-auto">
@@ -20,6 +75,9 @@ const Login = () => {
               type="text"
               className="grow bg-transparent outline-none"
               placeholder="Username"
+              name="username"
+              value={user.username}
+              onChange={handleChange}
             />
           </label>
 
@@ -41,10 +99,15 @@ const Login = () => {
               type="password"
               className="grow bg-transparent outline-none"
               placeholder="Password"
+              name="password"
+              value={user.password}
+              onChange={handleChange}
             />
           </label>
         </div>
-        <button className="btn btn-primary w-full mt-4">Login</button>
+        <button className="btn btn-primary w-full mt-4" onClick={handleSubmit}>
+          Login
+        </button>
       </div>
     </>
   );
