@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React from "react";
 import Loginbtn from "./Loginbtn";
 import Registerbtn from "./Registerbtn";
@@ -17,6 +18,12 @@ const Nav = () => {
       {user ? (
         <>
           <div className="flex-none gap-4 mr-2">
+            <a
+              href="/create"
+              className="btn bg-gray-500 hover:bg-gray-700 text-white"
+            >
+              Create Post
+            </a>
             <Logoutbtn />
           </div>
         </>

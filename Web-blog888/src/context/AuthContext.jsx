@@ -1,15 +1,10 @@
-import {
-  useState,
-  useEffect,
-  createContext,
-  useContext,
-  Children,
-} from "react";
+import { useState, useEffect, createContext, useContext } from "react";
 import AuthService from "../services/auth.service";
 import { Cookies } from "react-cookie";
 const cookies = new Cookies();
 const AuthContext = createContext(null);
-export const AuthProvider = ({ Children }) => {
+// eslint-disable-next-line react/prop-types
+export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(getUser);
   const login = (user) => setUser(user);
   const logout = () => {
@@ -21,16 +16,16 @@ export const AuthProvider = ({ Children }) => {
     return savedUser;
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     cookies.set("user", JSON.stringify(user), {
       path: "/",
       expires: new Date(Date.now() + 86400),
     });
-  }, [user])
+  }, [user]);
 
-  return(
-    <AuthContext.Provider value={{user, login, logout}}>
-        {Children}
+  return (
+    <AuthContext.Provider value={{ user, login, logout }}>
+      {children}
     </AuthContext.Provider>
   );
 };
