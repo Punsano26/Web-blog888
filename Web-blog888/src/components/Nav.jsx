@@ -18,6 +18,7 @@ const Nav = () => {
       {user ? (
         <>
           <div className="flex-none gap-4 mr-2">
+            /create button
             <a
               href="/create"
               className="btn bg-gray-500 hover:bg-gray-700 text-white"
