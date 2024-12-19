@@ -30,7 +30,7 @@ exports.register = async (req, res) => {
     res.status(500).send({
       message:
         error.message ||
-        "Something error occurred while registerring a new user.",
+        "Something error occurred while registering a new user.",
     });
   }
 };
@@ -62,25 +62,24 @@ exports.Login = async (req, res) => {
 
     //Login success
     jwt.sign({ username, id: userDoc._id }, secret, {}, (err, token) => {
-      if (err){
+      if (err) {
         return res.status(500).send({
-          message: " Internal server error: Cannot login! gennerrate token ",
+          message: " Internal server error: Cannot login! generate token ",
         });
       }
 
       //token generated
       res.send({
-        message:"User logged in successfully",
+        message: "User logged in successfully",
         id: userDoc._id,
         username,
         accessToken: token,
-      })
+      });
     });
   } catch (error) {
     res.status(500).send({
       message:
-        error.message ||
-        "Something error occurred while loging in a new user.",
+        error.message || "Something error occurred while login in a new user.",
     });
   }
 };
