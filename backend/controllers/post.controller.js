@@ -1,17 +1,9 @@
 const PostModel = require("../models/Post");
-const jwt = require("jsonwebtoken");
-require("dotenv").config();
-const srcret = process.env.SECRET;
 
 exports.createPost = async (req, res) => {
-  const token = req.headers["x-access-token"];
-  if (!token) {
-    // json เป็นฟังก์ชันสำหรับ return
-    return res.status(401).json({ message: "Token is messing" });
-  }
-
   //File upload
-  const { path } = req.file;
+  const { path: cover } = req.file;
+
   const author = req.userID;
   const { title, summary, content } = req.body;
   if (!title || !summary || !content) {
@@ -21,9 +13,23 @@ exports.createPost = async (req, res) => {
     title,
     summary,
     content,
-    cover: path,
+    cover,
     author,
   });
   res.json(postDoc);
   // TO be continue
 };
+
+exports.getPost = async (req, res) => {
+  const posts = await PostModel.find().populate("author", ["username"]).sort
+  ({"createdAt":-1}).limit(20);
+  //SELECT * FROM  POST, USER WHERE POST.author = USER._id
+  res.json(posts);
+};
+
+exports.getPostByID = async (req, res) => {
+  const {id} = req.params.id;
+  const postDoc = await PostModel.findById(id).populate("author", ["username"]);
+  res.json(postDoc);
+}
+

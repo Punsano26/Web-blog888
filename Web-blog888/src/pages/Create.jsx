@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import PostService from "../services/post.service";
+import Editor from "../components/Editor"
 const Create = () => {
   const [postDetail, setPostDetail] = useState({
     title: "",
@@ -9,6 +10,8 @@ const Create = () => {
     content: "",
     file: null,
   });
+  const [ content, setContent] = useState("");
+  const editorRef = useRef(null);
   const navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -18,6 +21,11 @@ const Create = () => {
       setPostDetail({ ...postDetail, [name]: value });
     }
   };
+
+const handleContentChange = (value) => {
+  setContent(value);
+  setPostDetail({ ...postDetail,content:content});
+}
 
   const handleSubmit = async () => {
     try {
@@ -78,13 +86,17 @@ const Create = () => {
           />
         </div>
         <div class="mb-4">
-          <textarea
+          {/* <textarea
             placeholder="Content"
             value={postDetail.content}
             onChange={handleChange}
             name="content"
             class="textarea textarea-bordered textarea-info w-full"
-          ></textarea>
+          ></textarea> */}
+          <div className="h-64">
+            <Editor value={content} onChange={handleContentChange} ref= {editorRef}/>
+          </div>
+          
         </div>
         <div class="mb-4">
           <input
@@ -99,7 +111,7 @@ const Create = () => {
         </button>
       </label>
     </div>
-  );
-};
+  )
+}
 
 export default Create;
