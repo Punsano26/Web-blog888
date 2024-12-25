@@ -5,7 +5,6 @@ export const Post = ({
   author,
   summary,
   cover,
-  content,
   createdAt,
   _id,
 }) => {
@@ -20,9 +19,9 @@ export const Post = ({
           />
         </figure>
         <div className="p-6 md:1/2 flex flex-col justify-between card-body">
-          <a href={"/post/" + _id} className="href"></a>
+          <a href={"/post/" + _id} className="href">
           <h2 className="card-title">{title}</h2>
-          <p>{content}</p>
+          </a>
           <p>
             {author.username}-{createdAt}
           </p>

@@ -1,9 +1,9 @@
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { forwardRef, useRef, useImprerativeHandle } from "react";
+import { forwardRef, useRef, useImperativeHandle } from "react";
 const Editor = forwardRef(({ value, onChange }, ref) => {
   const quillref = useRef(null);
-  useImprerativeHandle(ref, () => ({
+  useImperativeHandle(ref, () => ({
     getQuill: () => {
       return quillref.current.getEditor();
     }
