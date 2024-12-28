@@ -9,7 +9,7 @@ verifyToken = (req, res, next) => {
   }
   jwt.verify(token, secret, (err, decoded) => {
     if (err) return res.status(403).json({ message: "Access Forbidden!" });
-    req.userID = decoded.id;
+    req.userId = decoded.id;
     req.username = decoded.username;
     next();
   });

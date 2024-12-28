@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import PostService from "../services/post.service";
 import { Post } from "../components/Post";
 const Home = () => {
-  const [post, setPosts] = useState([]);
+  const [posts, setPosts] = useState([]);
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -23,8 +23,8 @@ const Home = () => {
   return (
     <>
       <div className="flex flex-col space-y-6">
-        {post.length > 0 &&
-          post.map((post, index) => {
+        {posts.length > 0 &&
+          posts.map((post, index) => {
             return <Post key={index} {...post} />;
           })}
       </div>

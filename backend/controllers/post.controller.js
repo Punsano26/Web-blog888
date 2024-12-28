@@ -2,9 +2,10 @@ const PostModel = require("../models/Post");
 
 exports.createPost = async (req, res) => {
   //File upload
-  const { path: cover } = req.file;
-
-  const author = req.userID;
+  const { path } = req.file;
+  console.log("path =", req.file);
+  
+  const author = req.userId;
   const { title, summary, content } = req.body;
   if (!title || !summary || !content) {
     return res.status(400).json({ message: "All Fields is requires" });
@@ -13,7 +14,7 @@ exports.createPost = async (req, res) => {
     title,
     summary,
     content,
-    cover,
+    cover: path,
     author,
   });
   res.json(postDoc);

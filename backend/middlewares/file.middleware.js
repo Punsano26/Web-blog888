@@ -25,6 +25,7 @@ function checkFileType(file, cb) {
   const fileTypes = /jpeg|jpg|png|gif|webp/;
   const extName = fileTypes.test(path.extname(file.originalname).toLowerCase());
   const mimetype = fileTypes.test(file.mimetype);
+  
   if (mimetype && extName) {
     return cb(null, true);
   } else {
