@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const UserModel = require("../models/User");
 const salt = bcrypt.genSaltSync(10);
+const PostModel = require("../models/Post");
 require("dotenv").config();
 const secret = process.env.SECRET;
 
