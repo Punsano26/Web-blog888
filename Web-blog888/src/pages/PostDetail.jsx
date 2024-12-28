@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import { useParams } from "react-router";
 import { useAuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router";
-import { compareAsc, format } from "date-fns";
+import {  format } from "date-fns";
 
 const Post = () => {
   const [postDetail, setPostDetail] = useState(null);
@@ -62,11 +62,12 @@ const Post = () => {
       }
     });
   };
-
+  if (!postDetail) 
+    return <div>Loading...</div>;
   return (
-    <div className="post-page min-h-full min-w-full flex items-center justify-center p-4 pt-20">
-      <div className="bg-white p-8 rounded-lg shadow-lg max-4xl w-full">
-        <h1 className="text-3xl font-bold mb-4 text-grey-800">
+    <div className="post-page min-h-full min-w-full flex items-center justify-center p-4 pt-8">
+      <div className="bg-white p-8 rounded-lg shadow-lg max-4xl w-full  ">
+        <h1 className="text-3xl font-bold mb-4 text-grey-800 text-center">
           {postDetail.title}
         </h1>
         <div className="text-grey-600 mb-4 text-center">
@@ -78,9 +79,10 @@ const Post = () => {
           </div>
           {user && user.id === postDetail.author._id && (
             <>
+            <div className="edit-row mb-4 text-center flex items-center justify-center gap-2">
               <a
                 href={`/edit/${postDetail._id}`}
-                className="btn btn-warning items-center justify-center mr-1"
+                className="btn btn-warning items-center justify-center"
               >
                 Edit post
               </a>
@@ -90,12 +92,13 @@ const Post = () => {
               >
                 Delete
               </a>
+              </div>
             </>
           )}
         </div>
 
         <div
-          className="content text-grey-700"
+          className="content text-grey-900"
           dangerouslySetInnerHTML={{ __html: postDetail.content }}
         ></div>
       </div>

@@ -22,11 +22,15 @@ const deletePostById = async (id) => {
   return await api.delete(`${API_URL}/${id}`);
 };
 
+const updatePost = async (id, post) => {
+  return await api.put(`${API_URL}/${id}`, post);
+};
 const PostService = {
   createPost,
   getPost,
   getPostByID,
   deletePostById,
+  updatePost,
 };
 
 export default PostService;

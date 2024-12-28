@@ -8,10 +8,6 @@ exports.createPost = async (req, res) => {
 
   const { path } = req.file;
   console.log("path =", req.file);
-  
-
- 
-
 
   const author = req.userId;
   const { title, summary, content } = req.body;
@@ -40,7 +36,6 @@ exports.createPost = async (req, res) => {
         error.message || "Something error occurred while creating a new post.",
     });
   }
-
 };
 
 exports.getPost = async (req, res) => {
@@ -112,7 +107,8 @@ exports.updatePost = async (req, res) => {
   if (!id) return res.status(404).json({ message: "Post ID is not provided" });
 
   const authorId = req.userId;
-  if (!authorId) return res.status(400).json({ message: "User ID is required" });
+  if (!authorId)
+    return res.status(400).json({ message: "User ID is required" });
 
   try {
     const postDoc = await PostModel.findById(id);
@@ -154,5 +150,3 @@ exports.updatePost = async (req, res) => {
     });
   }
 };
-
-
