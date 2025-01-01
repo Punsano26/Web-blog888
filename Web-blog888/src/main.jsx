@@ -6,12 +6,15 @@ import router from "./routers/Router.jsx";
 import { RouterProvider } from "react-router";
 import { CookiesProvider } from "react-cookie";
 import { AuthProvider } from "./context/AuthContext";
+import { PostProvider } from "./context/PostContext";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <CookiesProvider>
       <AuthProvider>
-        <RouterProvider router={router} />
+        <PostProvider>
+          <RouterProvider router={router} />
+        </PostProvider>
       </AuthProvider>
     </CookiesProvider>
   </StrictMode>

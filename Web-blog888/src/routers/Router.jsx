@@ -15,7 +15,7 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       { path: "", element: <Home /> },
-      { path: "edit/:id", element: (<PostOwnerPage><Edit /> </PostOwnerPage> )},
+      { path: "edit/:id", element: (<PostOwnerPage><Edit /></PostOwnerPage> )},
       { path: "create", element: (<UserLoginPage><Create/></UserLoginPage>) },
       { path: "post/:id", element: <PostDetail /> },
       { path: "login", element: <Login /> },

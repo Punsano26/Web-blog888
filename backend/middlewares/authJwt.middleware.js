@@ -15,8 +15,12 @@ verifyToken = (req, res, next) => {
   });
 };
 
+
+
+// รวมฟังก์ชันไว้ใน authJwt
 const authJwt = {
   verifyToken,
+ 
 };
 
 module.exports = authJwt;

@@ -12,5 +12,5 @@ router.get("/:id", postController.getPostByID);
 // http://localhost:5000/api/v1/post/
 router.delete("/:id", authJwt.verifyToken, postController.deletePost);
 // http://localhost:5000/api/v1/post/676ba46f2cc93f45c000f3dd
-router.put("/:id", authJwt.verifyToken, upload, postController.updatePost);
+router.put("/:id", authJwt.verifyToken,  upload, postController.updatePost);
 module.exports = router;

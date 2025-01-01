@@ -1,14 +1,16 @@
 import { Navigate } from "react-router";
 import { useAuthContext } from "../context/AuthContext";
+import { usePostContext } from "../context/PostContext";
 
-const UserLoginPage = ({ children }) => {
+const PostOwnerPage = ({ children }) => {
   const { user } = useAuthContext();
+  const { post } = usePostContext();
   if (!user) {
     return <Navigate to="/login" />;
   }
-  if (!user.isOwner) {
+  if ( user.id !== post.author._id) {
     return <Navigate to="/" />;
   }
   return children;
 };
-export default UserLoginPage;
+export default PostOwnerPage;
