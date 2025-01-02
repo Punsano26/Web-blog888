@@ -141,7 +141,7 @@ exports.updatePost = async (req, res) => {
 
     await postDoc.save();
     console.log(`Post with ID ${id} updated successfully by user ${authorId}.`);
-    res.json(postDoc);
+    res.status(200).json(postDoc);
   } catch (error) {
     console.log(error.message);
     res.status(500).send({

@@ -3,18 +3,20 @@ import { useNavigate, useParams } from "react-router";
 import Swal from "sweetalert2";
 import PostService from "../services/post.service";
 import Editor from "../components/Editor";
+import { useAuthContext } from "../context/AuthContext";
 
 const EditPost = () => {
   const [postDetail, setPostDetail] = useState({
     title: "",
     summary: "",
-    content: "",
     file: null,
   });
   const [content, setContent] = useState("");
   const editorRef = useRef(null);
   const navigate = useNavigate();
   const { id } = useParams();
+  const { user } = useAuthContext();
+  
   
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -30,34 +32,50 @@ const EditPost = () => {
     setPostDetail({ ...postDetail, content: value });
   };
 
-  useEffect(() => {
+   useEffect(() => {
 
-      PostService.getPostByID(id).then((response) => {
+     const fetchPost = async () => {
+      try {
+        const response = await PostService.getPostByID(id);
         if (response.status === 200) {
-          const { title, summary, content } = response.data;
-          setPostDetail({ title, summary, content, file: null });
-          setContent(content);
-          if (editorRef.current) {
-            editorRef.current.getQuill().setText(content); // Use setText instead of setEditorValue
+          if(user?.id !== response.data.author._id)
+          {
+            console.log("555555+");
+            
+            navigate("/");
           }
+          setPostDetail(response.data);
+          setContent(response.data.content);
         }
-      });
+      } catch (error) {
+        Swal.fire({
+          title: "Update Post",
+          text: error?.response?.data?.message || error.message,
+          icon: "error",
+        })
+      }
+     }
+     fetchPost();
+   
 
   }, [id]);
+
 
   const handleSubmit = async () => {
     try {
       const data = new FormData();
       data.set("title", postDetail.title);
       data.set("summary", postDetail.summary);
-      data.set("content", postDetail.content);
+      data.set("content", content);
       data.set("file", postDetail.file);
 
       const response = await PostService.updatePost(id, data); // Pass postID here
+      console.log(response.status);
+      
       if (response.status === 200) {
         Swal.fire({
           title: "Post Updated",
-          text: response.data.message || "Post has been Updated successfully!",
+          text:  "Post has been Updated successfully!",
           icon: "success",
         }).then(() => {
           setPostDetail({
