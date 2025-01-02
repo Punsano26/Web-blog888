@@ -23,7 +23,11 @@ const deletePostById = async (id) => {
 };
 
 const updatePost = async (id, post) => {
-  return await api.put(`${API_URL}/${id}`, post);
+  return await api.put(`${API_URL}/${id}`, post), {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  }
 };
 const PostService = {
   createPost,

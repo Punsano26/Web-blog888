@@ -8,14 +8,13 @@ import Register from "../pages/Register";
 import Login from "../pages/Login";
 import UserLoginPage from "../pages/UserLoginPage";
 import UserRegPage from "../pages/UserRegPage";
-import PostOwnerPage from "../pages/PostOwnerPage";
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
     children: [
       { path: "", element: <Home /> },
-      { path: "edit/:id", element: (<PostOwnerPage><Edit /></PostOwnerPage> )},
+      { path: "edit/:id", element: <Edit />},
       { path: "create", element: (<UserLoginPage><Create/></UserLoginPage>) },
       { path: "post/:id", element: <PostDetail /> },
       { path: "login", element: <Login /> },

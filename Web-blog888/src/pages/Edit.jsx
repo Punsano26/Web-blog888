@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
+import { useAuthContext } from "../context/AuthContext";
 import Swal from "sweetalert2";
 import PostService from "../services/post.service";
 import Editor from "../components/Editor";
@@ -8,14 +9,43 @@ const EditPost = () => {
   const [postDetail, setPostDetail] = useState({
     title: "",
     summary: "",
-    content: "",
-    file: null,
+    file: null
   });
   const [content, setContent] = useState("");
   const editorRef = useRef(null);
+  const { user } = useAuthContext();
+  const { id } = useParams(); 
   const navigate = useNavigate();
-  const { id } = useParams();
-  
+ 
+
+  useEffect(() => {
+
+     const fetchPost = async () => {
+      try {
+        const response = await PostService.getPostByID(id);
+        if (response.status === 200) {
+          if(user.id !== response.data.author._id)
+          {
+            console.log("555555+");
+            
+            navigate("/");
+          }
+          setPostDetail(response.data);
+          setContent(response.data.content);
+        }
+      } catch (error) {
+        Swal.fire({
+          title: "Update Post",
+          text: error?.response?.data?.message || error.message,
+          icon: "error",
+        })
+      }
+     }
+     fetchPost();
+   
+
+  }, [id]);
+
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     if (name === "file") {
@@ -30,20 +60,7 @@ const EditPost = () => {
     setPostDetail({ ...postDetail, content: value });
   };
 
-  useEffect(() => {
-
-      PostService.getPostByID(id).then((response) => {
-        if (response.status === 200) {
-          const { title, summary, content } = response.data;
-          setPostDetail({ title, summary, content, file: null });
-          setContent(content);
-          if (editorRef.current) {
-            editorRef.current.getQuill().setText(content); // Use setText instead of setEditorValue
-          }
-        }
-      });
-
-  }, [id]);
+  
 
   const handleSubmit = async () => {
     try {
