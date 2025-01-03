@@ -4,10 +4,8 @@ import Loginbtn from "./Loginbtn";
 import Registerbtn from "./Registerbtn";
 import Logoutbtn from "./Logoutbtn";
 import { useAuthContext } from "../context/AuthContext";
-
 const Nav = () => {
   const { user } = useAuthContext();
-
   return (
     <div className="navbar bg-base-100">
       <div className="flex-1">
@@ -17,7 +15,10 @@ const Nav = () => {
       </div>
       {user ? (
         <>
+        
           <div className="flex-none gap-4 mr-2">
+            <span className="text-lg font-semibold text-gray-800">Welcome,</span>
+            <a>{user.username}</a>
             <a
               href="/create"
               className="btn bg-gray-500 hover:bg-gray-700 text-white"

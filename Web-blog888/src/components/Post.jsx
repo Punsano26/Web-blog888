@@ -14,7 +14,7 @@ export const Post = ({
         <figure className="md:1/2 flex items-center justify-center">
         <a href={"/post/"+ _id}>
         <img
-            src={`${baseURL}/${cover}`}
+            src={`${cover}`}
             alt={title}
             className="w-full h-64 object-cover"
           />
@@ -23,10 +23,8 @@ export const Post = ({
         <div className="p-6 md:1/2 flex flex-col justify-between card-body">
           <a href={"/post/" + _id} className="href">
           <h2 className="card-title">{title}</h2>
-          </a>
-          <p>
-            {author?.username}-{createdAt}
-          </p>
+          </a>         
+            {author?.username}-{createdAt} 
           <p>{summary}</p>
         </div>
       </div>

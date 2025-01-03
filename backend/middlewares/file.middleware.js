@@ -1,20 +1,28 @@
 const multer = require("multer");
 const path = require("path");
 
+const filebaseConfig = require("../configs/firebase.config");
+const {getStorage, ref, uploadBytesResumable, getDownloadURL} = require("firebase/storage");
+const {initializeApp} = require("firebase/app");
+
+// Initialize Firebase
+const app = initializeApp(filebaseConfig);
+const firebasestorage = getStorage(app);
+
 //Set Storage engine
-const storage = multer.diskStorage({
-  destination: "./uploads/",
-  filename: (req, file, cb) => {
-    cb(
-      null,
-      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
-    );
-  },
-});
+// const storage = multer.diskStorage({
+//   destination: "./uploads/",
+//   filename: (req, file, cb) => {
+//     cb(
+//       null,
+//       file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+//     );
+//   },
+// });
 
 // Init Upload
 const upload = multer({
-  storage: storage,
+  storage: multer.memoryStorage(),
   limits: { fileSize: 1000000 }, //limit 1Mb
   fileFilter: (req, file, cb) => {
     checkFileType(file, cb); // Check file extension
@@ -33,4 +41,32 @@ function checkFileType(file, cb) {
   }
 }
 
-module.exports = { upload };
+// Upload file to Firebase storage
+async function uploadToFirebase(req, res, next) {
+  if (!req.file) {
+    next();
+   
+  }  else {
+     //save Location
+  const storageRef = ref(firebasestorage, `uploads/${req.file.originalname}`);
+  //file type
+  const metadata = {
+    contentType : req.file.mimetype,
+  };
+  try {
+    //upload file
+    const snapshot = await uploadBytesResumable(storageRef, req.file.buffer, metadata);
+    //get url from firebase
+    req.file.firebaseUrl = await getDownloadURL(snapshot.ref);
+    next();
+  
+  } catch (error) {
+    res.status(500).json({ message: error.message || "Somthing went wrong while uploading to firebase" 
+    });
+  }
+  }
+   
+  
+}
+
+module.exports = { upload, uploadToFirebase };

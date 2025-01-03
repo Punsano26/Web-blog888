@@ -75,7 +75,9 @@ const Post = () => {
             {format(new Date(postDetail.createdAt), "dd MMMM yyyy HH:mm")}
           </time>
           <div className="author mb-2">
-            <span className="text-blue-500">@{postDetail.author.username}</span>
+            
+            <span className="text-blue-500">@<a href={`/author/${postDetail.author._id}`}>{postDetail.author.username}</a></span>
+         
           </div>
           {user && user.id === postDetail.author._id && (
             <>
