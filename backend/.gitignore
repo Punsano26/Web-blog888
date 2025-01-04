@@ -1,18 +1,18 @@
-# Node modules
+# Node.js
 node_modules/
+npm-debug.log
+yarn-error.log
 
 # Logs
 logs/
 *.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+*.log.*
 
 # Dependency directories
 jspm_packages/
 
 # Optional npm cache directory
-.npm/
+.npm
 
 # Optional eslint cache
 .eslintcache
@@ -23,37 +23,25 @@ jspm_packages/
 # dotenv environment variables file
 .env
 
-# Next.js build output
-.next/
-
-# Nuxt.js build output
-.nuxt/
-
-# Gatsby files
-.cache/
-public/
-
-# Vuepress build output
-.vuepress/dist/
-
-# Serverless directories
-.serverless/
-
-# FuseBox cache
-.fusebox/
-
-# DynamoDB Local files
-.dynamodb/
-
-# TernJS port file
-.tern-port
-
-# VS Code directories
-.vscode/
-.history/
-
-# MacOS files
+# MacOS
 .DS_Store
 
-# Windows files
+# Windows
 Thumbs.db
+ehthumbs.db
+
+# IDEs and editors
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Others
+*.bak
+*.tmp
+*.temp
+*.old
+*.backup
